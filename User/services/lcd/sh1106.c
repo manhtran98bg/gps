@@ -86,6 +86,9 @@ void sh1106_UpdateScreen(oled_t *oled) {
         sh1106_WriteData(oled, &oled->SH1106_Buffer[SH1106_WIDTH*i],SH1106_WIDTH);
     }
 }
+void sh1106_set_rotate(uint8_t rot){
+
+}
 // Initialize the oled screen
 void sh1106_Init(oled_t *oled) {
     // Reset OLED

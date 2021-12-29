@@ -472,59 +472,33 @@ FRESULT	create_directory(char *directory, struct tm *time_struct){
     else sprintf(&directory[i],"%d",time_struct->tm_mday);
     fr = f_stat(directory, &fno);	//Check Directory Exist
     if (fr == FR_OK){
-#if _DEBUG
-    	trace_puts("Directory Exist. Don't Create Directory");
-#endif
-#if _USE_DEBUG_UART
-		debug_send_string("log: Directory Exist. Don't Create Directory\n");
-#endif
+    	logi("LOG: Directory %s Exist. Don't Create Directory",directory);
     	return FR_EXIST;
     }
     else {
-#if _DEBUG
-    	trace_puts("log: Directory No Exist. Create Directory");
-#endif
-#if _USE_DEBUG_UART
-		debug_send_string("log: Directory No Exist. Create Directory");
-#endif
     	fr = f_mkdir(directory);
     	if(fr == FR_OK){
-#if _DEBUG
-    		trace_write(directory, sizeof(directory));
-    		trace_puts(" => create OK");
-#endif
-#if _USE_DEBUG_UART
-    		debug_send_string(directory);
-    		debug_send_string("=> create OK\n");
-#endif
+    		logi("LOG: Directory %s No Exist. Create Directory => OK",directory);
     		set_timestamp(directory, time_struct->tm_year+1900, time_struct->tm_mon, time_struct->tm_mday,
     				time_struct->tm_hour, time_struct->tm_min, time_struct->tm_sec);
     	}
-    	else {
-#if _DEBUG
-    		trace_write(directory, sizeof(directory));
-    		trace_puts(" => create ERROR");
-#endif
-#if _USE_DEBUG_UART
-    		debug_send_string(directory);
-    		debug_send_string("=> create ERROR\n");
-#endif
-    	}
+    	else loge("LOG: Directory No Exist. Create Directory => ERROR");
     	return fr;
     }
 }
 
 FRESULT write2file(char *directory,int dir_len, char *filename, char *content, int content_len)
 {
-//	FRESULT fr;
-//	UINT	bw;
-//	char directory_buffer[128]={0};
-//	memcpy(directory_buffer,directory,dir_len);
-//	sprintf(&directory_buffer[dir_len],"/%s",filename);
-//	fr = f_open(&Fil, directory_buffer, FA_WRITE|FA_OPEN_APPEND);
-//	if (fr == FR_OK) {
-//			f_write(&Fil,content,content_len, &bw);	/* Write data to the file */
-//			fr = f_close(&Fil);
-//	}
-//	return fr;
+	FRESULT fr;
+	UINT	bw;
+	FIL Fil;
+	char directory_buffer[128]={0};
+	memcpy(directory_buffer,directory,dir_len);
+	sprintf(&directory_buffer[dir_len],"/%s",filename);
+	fr = f_open(&Fil, directory_buffer, FA_WRITE|FA_OPEN_APPEND);
+	if (fr == FR_OK) {
+			f_write(&Fil,content,content_len, &bw);	/* Write data to the file */
+			fr = f_close(&Fil);
+	}
+	return fr;
 }

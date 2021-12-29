@@ -147,9 +147,8 @@ uint8_t gps_process_data(gps_t *gps){
 			logi("%s",gps->nmea_buffer);
 			gps->nmea_size = gps->nmea_index +1;
 			gps->response = 1;
-			gps_nmea_parser(gps);
 			gps->nmea_index = 0;
-			return 1;
+			return gps_nmea_parser(gps);
 		}
 	}
 	return 0;
@@ -302,7 +301,7 @@ static uint8_t gps_nmea_parser(gps_t *gps){
         k++;
 	}
 	gps_fix_time(gps);
-	return 1;
+	return k;
 }
 void gps_register_rxCallback(rx_callbackFunction callback){
 	ptrFuntion = callback;

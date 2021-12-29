@@ -133,22 +133,6 @@ void MFRC522_Reset(void)
  */
 void MFRC522_Init(void)
 {
-//	/* Khoi tao SPI */
-//	GPIO_InitTypeDef GPIO_InitStructure;
-//	/* GPIOD Periph clock enable */
-//	RCC_APB2PeriphClockCmd(MFRC522_CS_RCC | MFRC522_RST_RCC, ENABLE);
-//
-//	/* Configure CS is output pushpull mode */
-//	GPIO_InitStructure.GPIO_Pin = MFRC522_CS_PIN;
-//	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-//	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
-//	GPIO_Init(MFRC522_CS_GPIO, &GPIO_InitStructure);
-//
-//	GPIO_InitStructure.GPIO_Pin = MFRC522_RST_PIN;
-//	GPIO_Init(MFRC522_RST_GPIO, &GPIO_InitStructure);
-//	GPIO_SetBits(MFRC522_CS_GPIO,MFRC522_CS_PIN);
-//	GPIO_SetBits(MFRC522_RST_GPIO,MFRC522_RST_PIN);
-	// spi config
 	spi_init(&hspi, MFRC522_SPI, MFRC522_GPIO, MFRC522_MOSI_PIN, MFRC522_MISO_PIN, MFRC522_SCK_PIN, MFRC522_CS_PIN);
 	MFRC522_Reset();
 	//Timer: TPrescaler*TreloadVal/6.78MHz = 24ms

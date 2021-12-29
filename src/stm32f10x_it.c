@@ -35,14 +35,6 @@ void USART1_IRQHandler(void)
 void USART2_IRQHandler(void)
 {
 }
-void RTC_IRQHandler(void)
-{
-	if (RTC_GetITStatus(RTC_IT_SEC) != RESET){
-		RTC_ClearITPendingBit(RTC_IT_SEC);
-	    /* Wait until last write operation on RTC registers has finished */
-		RTC_WaitForLastTask();
-	}
-}
 void EXTI9_5_IRQHandler()
 {
 	if(EXTI_GetITStatus(EXTI_Line5)!=RESET)
